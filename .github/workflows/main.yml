@@ -29,7 +29,6 @@ jobs:
 
     - name: Build RPM package
       run: |
-        export PATH=/usr/bin:$PATH
         rpmbuild --define "_topdir $HOME/rpmbuild" -ba ~/rpmbuild/SPECS/rpm_pkg.spec
 
     - name: List built RPMs
