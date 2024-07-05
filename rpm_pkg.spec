@@ -17,7 +17,6 @@ Control the keyboard backlight on Clevo laptops running Linux.
 %autosetup
 
 %build
-yum install -y gcc make || true
 make %{?_smp_mflags}
 
 %install
