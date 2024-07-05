@@ -1,11 +1,10 @@
 Name:           clevo-keyboard-backlight
 Version:        1.0
 Release:        1%{?dist}
-Summary:        Clevo keyboard backlight control for Linux
+Summary:        Clevo keyboard backlight control
 
 License:        MIT
 URL:            https://github.com/TheMystery28/clevo-keyboard-backlight
-Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
@@ -14,7 +13,7 @@ BuildRequires:  make
 Control the keyboard backlight on Clevo laptops running Linux.
 
 %prep
-%autosetup
+%setup -q
 
 %build
 make %{?_smp_mflags}
