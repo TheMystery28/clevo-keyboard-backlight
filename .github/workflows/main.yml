@@ -16,7 +16,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm gcc make coreutils python3 git
+        sudo apt-get install -y rpm gcc make
+        sudo apt-get install -y alien dpkg-dev debhelper build-essential
 
     - name: Set up RPM build environment
       run: |
@@ -28,7 +29,8 @@ jobs:
         tar czf ~/rpmbuild/SOURCES/clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
 
     - name: Build RPM package
-      run: rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
+      run: |
+        rpmbuild --define "_topdir $HOME/rpmbuild" -ba ~/rpmbuild/SPECS/rpm_pkg.spec
 
     - name: List built RPMs
       run: find ~/rpmbuild/RPMS -name "*.rpm"
