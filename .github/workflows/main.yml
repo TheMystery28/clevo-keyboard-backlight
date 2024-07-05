@@ -16,9 +16,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm gcc make
+        sudo apt-get install -y rpm
         sudo apt-get install -y alien dpkg-dev debhelper build-essential
-        sudo apt-get install -y rpmdevtools
 
     - name: Set up RPM build environment
       run: |
