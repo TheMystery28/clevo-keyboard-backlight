@@ -1,4 +1,4 @@
-name: Build RPM
+name: Build RPM Package
 
 on:
   push:
@@ -9,26 +9,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
-
+    
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm build-essential
+        sudo apt-get install -y rpm
 
-    - name: Build RPM package
+    - name: Set up RPM build environment
       run: |
         mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-        cp src_pkg/rpm_pkg.spec ~/rpmbuild/SPECS/
+        cp rpm_pkg.spec ~/rpmbuild/SPECS/
         cp -r * ~/rpmbuild/SOURCES/
-        rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
+
+    - name: Build RPM package
+      run: rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
+
+    - name: List built RPMs
+      run: find ~/rpmbuild/RPMS -name "*.rpm"
 
     - name: Upload RPM
       uses: actions/upload-artifact@v2
       with:
         name: clevo-keyboard-rpm
-        path: ~/rpmbuild/RPMS/x86_64/*.rpm
+        path: ~/rpmbuild/RPMS/**/*.rpm
 
     - name: Upload SRPM
       uses: actions/upload-artifact@v2
