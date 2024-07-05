@@ -1,6 +1,3 @@
-BuildRequires: gcc
-BuildRequires: make
-
 name: Build RPM Package
 
 on:
