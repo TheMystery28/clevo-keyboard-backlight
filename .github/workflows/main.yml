@@ -17,7 +17,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-        dnf install -y rpm-build rpmdevtools gcc make coreutils python3 git
+        dnf install -y --allowerasing rpm-build rpmdevtools gcc make coreutils python3 git
 
     - name: Set up RPM build environment
       run: |
