@@ -13,39 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y rpm
-
-    - name: Set up RPM build environment
-      run: |
-        mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-        cp rpm_pkg.spec ~/rpmbuild/SPECS/
-
-    - name: Create source tarball
-      run: |
-        tar czf ~/rpmbuild/SOURCES/clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
-
-    - name: Install build dependencies
-      run: |
-        sudo apt-get install -y gcc make
-
     - name: Build RPM package
-      run: |
-        rpmbuild --define "_topdir $HOME/rpmbuild" -ba ~/rpmbuild/SPECS/rpm_pkg.spec
-
-    - name: List built RPMs
-      run: find ~/rpmbuild/RPMS -name "*.rpm"
+      id: rpm
+      uses: naveenrajm7/rpmbuild@master
+      with:
+        spec_file: "rpm_pkg.spec"
 
     - name: Upload RPM
       uses: actions/upload-artifact@v2
       with:
         name: clevo-keyboard-rpm
-        path: ~/rpmbuild/RPMS/**/*.rpm
+        path: ${{ steps.rpm.outputs.rpm_dir_path }}
 
     - name: Upload SRPM
       uses: actions/upload-artifact@v2
       with:
         name: clevo-keyboard-srpm
-        path: ~/rpmbuild/SRPMS/*.rpm
+        path: ${{ steps.rpm.outputs.source_rpm_path }}
