@@ -16,17 +16,15 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm alien gcc make
+        sudo apt-get install -y rpm rpmbuild gcc make
 
     - name: Create source tarball
       run: |
         tar czf clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
 
-    - name: Build RPM package using alien
+    - name: Build RPM package
       run: |
-        sudo alien -r -g -v clevo-keyboard-backlight-1.0.tar.gz
-        cd clevo-keyboard-backlight-1.0
-        sudo rpmbuild --target=x86_64 --buildroot $PWD -bb clevo-keyboard-backlight-1.0-2.spec
+        rpmbuild -ba --define "_sourcedir $PWD" --define "_specdir $PWD" --define "_builddir $PWD" --define "_srcrpmdir $PWD" --define "_rpmdir $PWD" rpm_pkg.spec
 
     - name: List built RPMs
       run: find . -name "*.rpm"
