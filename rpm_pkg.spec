@@ -28,6 +28,5 @@ Control the keyboard backlight on Clevo laptops running Linux.
 %changelog
 * Fri Jul 07 2023 Your Name <your.email@example.com> - 1.0-2
 - Moved binary to /usr/libexec to comply with rpm-ostree requirements
-
-* Wed Jul 05 2023 Your Name <your.email@example.com> - 1.0-1
+* Fri Jul 05 2023 Your Name <your.email@example.com> - 1.0-1
 - Initial RPM release
