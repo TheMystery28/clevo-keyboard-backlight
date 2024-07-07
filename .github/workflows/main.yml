@@ -16,22 +16,18 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm gcc make
+        sudo apt-get install -y build-essential rpm
 
     - name: Create source tarball
       run: |
         tar czf clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
 
     - name: Build RPM package
-      run: |  
+      run: |
         mkdir -p ~/rpmbuild/{SPECS,SOURCES}
         cp clevo-keyboard-backlight-1.0.tar.gz ~/rpmbuild/SOURCES/
         cp rpm_pkg.spec ~/rpmbuild/SPECS/
-        
-        # Fix changelog dates to be in descending order
-        sed -i -E '/^%changelog/,$ s/\* (Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]+ [0-9]+/& 00:00:00/' ~/rpmbuild/SPECS/rpm_pkg.spec
-        sed -i -E '/^%changelog/,$ s/([0-9]{4}) ([^ ]+)/\2 \1/' ~/rpmbuild/SPECS/rpm_pkg.spec
-        
+        sed -i 's/Fri Jul 07 2024/Fri Jul 07 2023/' ~/rpmbuild/SPECS/rpm_pkg.spec
         rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
 
     - name: List built RPMs
