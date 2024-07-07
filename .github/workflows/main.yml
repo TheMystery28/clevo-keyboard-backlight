@@ -8,29 +8,39 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: fedora-latest
     
     steps:
     - uses: actions/checkout@v2
     
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y rpm alien gcc make
+        sudo dnf install -y rpm-build rpmdevtools gcc make
+
+    - name: Set up RPM build environment
+      run: |
+        rpmdev-setuptree
+        cp rpm_pkg.spec ~/rpmbuild/SPECS/
 
     - name: Create source tarball
       run: |
-        tar czf clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
+        tar czf ~/rpmbuild/SOURCES/clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
 
     - name: Build RPM package
       run: |
-        sudo alien -r clevo-keyboard-backlight-1.0.tar.gz
+        rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
 
     - name: List built RPMs
-      run: find . -name "*.rpm"
+      run: find ~/rpmbuild/RPMS -name "*.rpm"
 
     - name: Upload RPM
       uses: actions/upload-artifact@v2
       with:
         name: clevo-keyboard-rpm
-        path: ./*.rpm
+        path: ~/rpmbuild/RPMS/**/*.rpm
+
+    - name: Upload SRPM
+      uses: actions/upload-artifact@v2
+      with:
+        name: clevo-keyboard-srpm
+        path: ~/rpmbuild/SRPMS/*.rpm
