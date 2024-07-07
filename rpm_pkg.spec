@@ -17,13 +17,13 @@ Control the keyboard backlight on Clevo laptops running Linux.
 %autosetup
 
 %build
-make %{?_smp_mflags}
+%make_build
 
 %install
 %make_install
 
 %files
-%{_bindir}/clevo-keyboard-backlight
+%{_libexecdir}/%{name}
 
 %changelog
 * Fri Jul 05 2024 Your Name <your.email@example.com> - 1.0-1
