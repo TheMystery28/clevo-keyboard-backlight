@@ -7,7 +7,7 @@ clevo-keyboard-backlight: clevo-keyboard-backlight.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 install:
-	install -D -m 755 clevo-keyboard-backlight $(DESTDIR)/usr/bin/clevo-keyboard-backlight
+	install -D -m 755 clevo-keyboard-backlight $(DESTDIR)/usr/libexec/clevo-keyboard-backlight
 
 clean:
 	rm -f clevo-keyboard-backlight
