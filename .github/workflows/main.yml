@@ -16,17 +16,20 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y rpm
+        sudo apt-get install -y rpm gcc make
 
     - name: Create source tarball
       run: |
         tar czf clevo-keyboard-backlight-1.0.tar.gz --transform 's,^,clevo-keyboard-backlight-1.0/,' *
 
-    - name: Build RPM package
+    - name: Prepare RPM build environment
       run: |
         mkdir -p ~/rpmbuild/{SPECS,SOURCES}
         cp clevo-keyboard-backlight-1.0.tar.gz ~/rpmbuild/SOURCES/
         cp rpm_pkg.spec ~/rpmbuild/SPECS/
+
+    - name: Build RPM package
+      run: |
         rpmbuild -ba ~/rpmbuild/SPECS/rpm_pkg.spec
 
     - name: List built RPMs
